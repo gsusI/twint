@@ -1,4 +1,4 @@
-import sqlite3
+from sqlite3worker import Sqlite3Worker
 import sys
 import time
 import hashlib
@@ -8,7 +8,7 @@ from datetime import datetime
 def Conn(database):
     if database:
         print("[+] Inserting into Database: " + str(database))
-        conn = init(database)
+        conn = Sqlite3Worker(database)
         if isinstance(conn, str):
             print(str)
             sys.exit(1)
@@ -21,7 +21,6 @@ def init(db):
     try:
         conn = sqlite3.connect(db)
         cursor = conn.cursor()
-        cursor.execute('PRAGMA journal_mode=wal')
         table_users = """
             CREATE TABLE IF NOT EXISTS
                 users(
