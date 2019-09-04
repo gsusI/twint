@@ -9,4 +9,4 @@ aiohttp_socks
 schedule
 geopy
 fake-useragent
-git+https://github.com/palantir/sqlite3worker#egg=sqlite3worker
+git+https://github.com/remdragon/sqlite3worker#egg=sqlite3worker

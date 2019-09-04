@@ -189,28 +189,25 @@ def uTable(Followers):
 
     return table
 
-def follow(conn, Username, Followers, User):
+def follow(cursor, Username, Followers, User):
     try:
         time_ms = round(time.time()*1000)
-        cursor = conn.cursor()
         entry = (User, time_ms, Username,)
         table = fTable(Followers)
         query = f"INSERT INTO {table} VALUES(?,?,?)"
         cursor.execute(query, entry)
-        conn.commit()
+        
     except sqlite3.IntegrityError:
         pass
 
-def get_hash_id(conn, id):
-    cursor = conn.cursor()
+def get_hash_id(cursor, id):
     cursor.execute('SELECT hex_dig FROM users WHERE id = ? LIMIT 1', (id,))
     resultset = cursor.fetchall()
     return resultset[0][0] if resultset else -1
 
-def user(conn, config, User):
+def user(cursor, config, User):
     try:
         time_ms = round(time.time()*1000)
-        cursor = conn.cursor()
         user = [int(User.id), User.id, User.name, User.username, User.bio, User.location, User.url,User.join_date, User.join_time, User.tweets, User.following, User.followers, User.likes, User.media_count, User.is_private, User.is_verified, User.avatar, User.background_image]
 
         hex_dig = hashlib.sha256(','.join(str(v) for v in user).encode()).hexdigest()
@@ -228,14 +225,13 @@ def user(conn, config, User):
             query = f"INSERT INTO {table} VALUES(?,?)"
             cursor.execute(query, (config.User_id, int(User.id)))
 
-        conn.commit()
+        
     except sqlite3.IntegrityError:
         pass
 
-def tweets(conn, Tweet, config):
+def tweets(cursor, Tweet, config):
     try:
         time_ms = round(time.time()*1000)
-        cursor = conn.cursor()
         entry = (Tweet.id,
                     Tweet.id_str,
                     Tweet.tweet,
@@ -280,6 +276,6 @@ def tweets(conn, Tweet, config):
                 query = 'INSERT INTO replies VALUES(?,?,?)'
                 cursor.execute(query, (Tweet.id, int(reply['user_id']), reply['username']))
 
-        conn.commit()
+        
     except sqlite3.IntegrityError:
         pass
