@@ -17,10 +17,8 @@ def Conn(database):
 
     return conn
 
-def init(db):
+def init(cursor):
     try:
-        conn = sqlite3.connect(db)
-        cursor = conn.cursor()
         table_users = """
             CREATE TABLE IF NOT EXISTS
                 users(
