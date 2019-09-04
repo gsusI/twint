@@ -1,4 +1,5 @@
 from sqlite3worker import Sqlite3Worker
+import sqlite3
 import sys
 import time
 import hashlib
